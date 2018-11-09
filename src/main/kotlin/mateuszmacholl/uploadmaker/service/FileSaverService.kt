@@ -1,6 +1,6 @@
 package mateuszmacholl.uploadmaker.service
 
-import mateuszmacholl.uploadmaker.config.FileStorageProperties
+import mateuszmacholl.uploadmaker.config.properties.FileStorageProperties
 import mateuszmacholl.uploadmaker.config.exception.file.FileStorageException
 import org.apache.commons.io.FileUtils
 import org.springframework.stereotype.Service

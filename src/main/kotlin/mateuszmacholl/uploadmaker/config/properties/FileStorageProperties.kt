@@ -1,4 +1,4 @@
-package mateuszmacholl.uploadmaker.config
+package mateuszmacholl.uploadmaker.config.properties
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 
