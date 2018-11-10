@@ -1,4 +1,4 @@
-package mateuszmacholl.uploadmaker.service.async
+package mateuszmacholl.uploadmaker.service
 
 import mateuszmacholl.uploadmaker.config.exception.file.FileNotFoundException
 import org.apache.commons.io.IOUtils

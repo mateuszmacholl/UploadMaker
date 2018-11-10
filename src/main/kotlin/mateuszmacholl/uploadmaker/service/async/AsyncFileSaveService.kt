@@ -1,6 +1,8 @@
 package mateuszmacholl.uploadmaker.service.async
 
 import mateuszmacholl.uploadmaker.model.FileEntity
+import mateuszmacholl.uploadmaker.service.FileDownloaderService
+import mateuszmacholl.uploadmaker.service.FileSaverService
 import mateuszmacholl.uploadmaker.service.nameConstructor.FileNameConstructorService
 import org.springframework.scheduling.annotation.Async
 import org.springframework.scheduling.annotation.AsyncResult

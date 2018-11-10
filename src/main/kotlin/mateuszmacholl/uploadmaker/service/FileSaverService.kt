@@ -1,4 +1,4 @@
-package mateuszmacholl.uploadmaker.service.async
+package mateuszmacholl.uploadmaker.service
 
 import mateuszmacholl.uploadmaker.config.exception.file.FileStorageException
 import mateuszmacholl.uploadmaker.config.properties.FileStorageProperties
@@ -25,7 +25,7 @@ class FileSaverService(fileStorageProperties: FileStorageProperties) {
     fun save(file: ByteArray, name: String): String {
         val cleanName = StringUtils.cleanPath(name)
 
-        if (cleanName.contains("src/test")) {
+        if (cleanName.contains("..")) {
             throw FileStorageException("Filename contains invalid path sequence $cleanName")
         }
 
