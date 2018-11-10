@@ -1,4 +1,4 @@
-package mateuszmacholl.uploadmaker.service.nameConstructor
+package mateuszmacholl.uploadmaker.service.fileNameConstructor
 
 import org.springframework.stereotype.Service
 
