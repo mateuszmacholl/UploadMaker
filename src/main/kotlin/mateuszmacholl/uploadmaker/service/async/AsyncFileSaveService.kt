@@ -1,4 +1,4 @@
-package mateuszmacholl.uploadmaker.service
+package mateuszmacholl.uploadmaker.service.async
 
 import mateuszmacholl.uploadmaker.model.FileEntity
 import mateuszmacholl.uploadmaker.service.nameConstructor.FileNameConstructorService
@@ -8,9 +8,9 @@ import org.springframework.stereotype.Service
 import java.util.concurrent.Future
 
 @Service
-class FileAsyncQueueService(private val fileDownloaderService: FileDownloaderService,
-                            private val fileSaverService: FileSaverService,
-                            private val fileNameConstructorService: FileNameConstructorService) {
+class AsyncFileSaveService(private val fileDownloaderService: FileDownloaderService,
+                           private val fileSaverService: FileSaverService,
+                           private val fileNameConstructorService: FileNameConstructorService) {
 
     @Async
     fun start(fileEntity: FileEntity): Future<FileEntity> {
@@ -19,10 +19,4 @@ class FileAsyncQueueService(private val fileDownloaderService: FileDownloaderSer
         fileEntity.path = fileSaverService.save(file, fileEntity.name!!)
         return AsyncResult<FileEntity>(fileEntity)
     }
-
-    /*
-    fun start(filesEntities: List<FileEntity>): List<Future<FileEntity>> {
-        return filesEntities.map { this.start(it) }
-    }
-    */
 }

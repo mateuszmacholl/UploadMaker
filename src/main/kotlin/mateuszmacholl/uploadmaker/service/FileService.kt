@@ -2,13 +2,14 @@ package mateuszmacholl.uploadmaker.service
 
 import mateuszmacholl.uploadmaker.model.FileEntity
 import mateuszmacholl.uploadmaker.repository.FileRepo
+import mateuszmacholl.uploadmaker.service.async.AsyncFileSaveService
 import mateuszmacholl.uploadmaker.specification.FileEntitySpec
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 
 
 @Service
-class FileService(private val fileAsyncQueueService: FileAsyncQueueService,
+class FileService(private val asyncFileSaveService: AsyncFileSaveService,
                   private val fileRepo: FileRepo) {
 
 
@@ -17,7 +18,7 @@ class FileService(private val fileAsyncQueueService: FileAsyncQueueService,
     }
 
     fun save(filesEntities: List<FileEntity>): List<FileEntity>{
-        val updatedFilesEntities = filesEntities.map { this.fileAsyncQueueService.start(it) }.map { it.get() }
+        val updatedFilesEntities = filesEntities.map { this.asyncFileSaveService.start(it) }.map { it.get() }
         return updatedFilesEntities.map { this.fileRepo.save(it) }
     }
 }
