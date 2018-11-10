@@ -10,12 +10,12 @@ import org.springframework.stereotype.Service
 import java.util.concurrent.Future
 
 @Service
-class AsyncFileSaveService(private val fileDownloaderService: FileDownloaderService,
-                           private val fileSaverService: FileSaverService,
-                           private val fileNameConstructorService: FileNameConstructorService) {
+class AsyncFilePrepareService(private val fileDownloaderService: FileDownloaderService,
+                              private val fileSaverService: FileSaverService,
+                              private val fileNameConstructorService: FileNameConstructorService) {
 
     @Async
-    fun start(fileEntity: FileEntity): Future<FileEntity> {
+    fun prepare(fileEntity: FileEntity): Future<FileEntity> {
         val file = this.fileDownloaderService.download(fileEntity.url!!)
         fileEntity.name = fileNameConstructorService.construct(file, fileEntity.url!!, fileEntity.name!!)
         fileEntity.path = fileSaverService.save(file, fileEntity.name!!)
