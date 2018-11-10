@@ -1,13 +1,11 @@
 package mateuszmacholl.uploadmaker.service
 
-import mateuszmacholl.uploadmaker.config.properties.FileStorageProperties
 import mateuszmacholl.uploadmaker.config.exception.file.FileStorageException
+import mateuszmacholl.uploadmaker.config.properties.FileStorageProperties
 import org.apache.commons.io.FileUtils
 import org.springframework.stereotype.Service
 import org.springframework.util.StringUtils
-import java.io.ByteArrayInputStream
 import java.io.File
-import java.net.URLConnection
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -24,20 +22,16 @@ class FileSaverService(fileStorageProperties: FileStorageProperties) {
         }
     }
 
-    fun save(file: ByteArray, name: String) {
+    fun save(file: ByteArray, name: String): String {
         val cleanName = StringUtils.cleanPath(name)
 
         if (cleanName.contains("..")) {
             throw FileStorageException("Filename contains invalid path sequence $cleanName")
         }
 
-        val targetLocation = this.fileStorageLocation.resolve(cleanName)
+        val targetLocation = this.fileStorageLocation.resolve(cleanName).toString()
 
-        val mimeType = URLConnection.guessContentTypeFromStream(ByteArrayInputStream(file))
-
-        val index = mimeType.lastIndexOf('/')
-        val type = mimeType.substring(index + 1, mimeType.length)
-
-        FileUtils.writeByteArrayToFile(File("${targetLocation.toAbsolutePath()}.$type"), file)
+        FileUtils.writeByteArrayToFile(File(targetLocation), file)
+        return targetLocation
     }
 }

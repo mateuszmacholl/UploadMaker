@@ -1,29 +1,33 @@
 package mateuszmacholl.uploadmaker.service
 
-import org.springframework.http.HttpEntity
-import org.springframework.http.HttpHeaders
-import org.springframework.http.HttpMethod
-import org.springframework.http.MediaType
+import mateuszmacholl.uploadmaker.config.exception.file.FileNotFoundException
+import org.apache.commons.io.IOUtils
 import org.springframework.stereotype.Service
-import org.springframework.web.client.RestTemplate
-import java.util.*
+import java.io.ByteArrayOutputStream
+import java.io.IOException
+import java.net.URL
 
 
 @Service
-class FileDownloaderService(private val restTemplate: RestTemplate) {
+class FileDownloaderService {
 
-    fun download(url: String): ByteArray? {
+    fun download(url: String): ByteArray {
         try {
-            val headers = HttpHeaders()
-            headers.accept = Arrays.asList(MediaType.APPLICATION_OCTET_STREAM)
-            val entity = HttpEntity<Any>(headers)
-            val response = this.restTemplate
-                    .exchange(url, HttpMethod.GET, entity, ByteArray::class.java)
-            return response.body
-        } catch (e: RuntimeException) {
-            e.printStackTrace()
+            val conn = URL(url).openConnection()
+            conn.connectTimeout = 5000
+            conn.readTimeout = 5000
+            conn.connect()
+
+            val stream = ByteArrayOutputStream()
+            IOUtils.copy(conn.getInputStream(), stream)
+
+            return stream.toByteArray()
+        } catch (ex: IOException) {
+            throw FileNotFoundException("File not found, wrong url: $url", ex)
         }
-        return null
     }
 
+    fun download(url: List<String>): List<ByteArray>{
+        return url.map { download(it) }
+    }
 }
