@@ -26,8 +26,4 @@ class FileDownloaderService {
             throw FileNotFoundException("File not found, wrong url: $url", ex)
         }
     }
-
-    fun download(url: List<String>): List<ByteArray>{
-        return url.map { download(it) }
-    }
 }
