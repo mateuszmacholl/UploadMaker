@@ -1,18 +1,18 @@
-package mateuszmacholl.uploadmaker.service
+package mateuszmacholl.uploadmaker.service.file.storage
 
 import mateuszmacholl.uploadmaker.config.exception.file.FileStorageException
 import mateuszmacholl.uploadmaker.config.properties.FileStorageProperties
 import org.apache.commons.io.FileUtils
-import org.springframework.stereotype.Service
+import org.springframework.stereotype.Component
 import org.springframework.util.StringUtils
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 
-@Service
-class FileSaverService(fileStorageProperties: FileStorageProperties) {
-    private var fileStorageLocation: Path = Paths.get(fileStorageProperties.uploadDir).toAbsolutePath().normalize()
+@Component
+class FileSaver(fileStorageProperties: FileStorageProperties) {
+    private val fileStorageLocation: Path = Paths.get(fileStorageProperties.uploadDir).toAbsolutePath().normalize()
 
     init {
         try {
@@ -22,16 +22,15 @@ class FileSaverService(fileStorageProperties: FileStorageProperties) {
         }
     }
 
-    fun save(file: ByteArray, name: String): String {
-        val cleanName = StringUtils.cleanPath(name)
-
-        if (cleanName.contains("..")) {
-            throw FileStorageException("Filename contains invalid path sequence $cleanName")
-        }
-
-        val targetLocation = this.fileStorageLocation.resolve(cleanName).toString()
-
+    fun saveOnDisk(file: ByteArray, name: String): String {
+        val targetLocation = prepareLocation(name)
         FileUtils.writeByteArrayToFile(File(targetLocation), file)
         return targetLocation
     }
+
+    private fun prepareLocation(name: String): String {
+        val cleanName = StringUtils.cleanPath(name)
+        return this.fileStorageLocation.resolve(cleanName).toString()
+    }
+
 }

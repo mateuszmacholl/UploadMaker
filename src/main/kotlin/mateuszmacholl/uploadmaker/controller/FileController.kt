@@ -1,17 +1,21 @@
 package mateuszmacholl.uploadmaker.controller
 
+import mateuszmacholl.uploadmaker.config.exception.file.FileNotFoundException
 import mateuszmacholl.uploadmaker.converter.FileConverter
 import mateuszmacholl.uploadmaker.dto.FileDto
-import mateuszmacholl.uploadmaker.service.FileService
+import mateuszmacholl.uploadmaker.service.file.FileService
 import mateuszmacholl.uploadmaker.specification.FileEntitySpec
+import org.springframework.core.io.Resource
 import org.springframework.data.domain.Pageable
+import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestMethod
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
+import java.io.IOException
+import javax.servlet.http.HttpServletRequest
+
 
 @RestController
 @Validated
@@ -21,15 +25,46 @@ class FileController(private val fileService: FileService,
 
 
     @RequestMapping(value = [""], method = [RequestMethod.GET])
-    fun getAll(fileEntitySpec: FileEntitySpec, pageable: Pageable): ResponseEntity<*>{
+    fun getAll(fileEntitySpec: FileEntitySpec, pageable: Pageable): ResponseEntity<*> {
         val filesEntities = fileService.getAll(fileEntitySpec, pageable)
         return ResponseEntity(filesEntities, HttpStatus.OK)
     }
 
     @RequestMapping(value = [""], method = [RequestMethod.POST])
-    fun add(@RequestBody fileDtos: List<FileDto>): ResponseEntity<*>{
+    fun add(@RequestBody fileDtos: List<FileDto>): ResponseEntity<*> {
         val filesEntities = fileConverter.convert(fileDtos)
-        val createdFiles = fileService.save(filesEntities)
-        return ResponseEntity(createdFiles, HttpStatus.ACCEPTED)
+        val createdFiles = filesEntities.map { fileService.save(it) }
+                .map {
+                    try {
+                        it.get()
+                    } catch (ex: Exception) {
+                        throw FileNotFoundException("Wrong url", ex)
+                    }
+                }
+        return ResponseEntity(createdFiles, HttpStatus.OK)
+    }
+
+    @RequestMapping(value = ["/download"], method = [RequestMethod.GET])
+    fun download(@RequestParam name: String, request: HttpServletRequest): ResponseEntity<Resource> {
+        val file = this.fileService.findByName(name)
+        val resource = this.fileService.download(file!!)
+        val contentType = getContentType(resource, request)
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(contentType))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=${resource.filename}")
+                .body(resource)
+    }
+
+    private fun getContentType(resource: Resource, request: HttpServletRequest): String {
+        var contentType: String? = null
+        try {
+            contentType = request.servletContext.getMimeType(resource.file.absolutePath)
+        } catch (ex: IOException) {
+            ex.printStackTrace()
+        }
+        if (contentType == null) {
+            contentType = "application/octet-stream"
+        }
+        return contentType
     }
 }

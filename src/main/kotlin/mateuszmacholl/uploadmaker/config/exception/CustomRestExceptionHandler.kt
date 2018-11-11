@@ -146,7 +146,7 @@ class CustomRestExceptionHandler : ResponseEntityExceptionHandler() {
     @ExceptionHandler(FileNotFoundException::class)
     fun handleFileNotFoundException(ex: Exception, request: WebRequest): ResponseEntity<Any>{
         val message = ex.localizedMessage
-        val apiError = ApiError(HttpStatus.BAD_REQUEST, message, "")
+        val apiError = ApiError(HttpStatus.NOT_FOUND, message, "")
         return ResponseEntity(apiError, HttpHeaders(), apiError.status)
     }
 
