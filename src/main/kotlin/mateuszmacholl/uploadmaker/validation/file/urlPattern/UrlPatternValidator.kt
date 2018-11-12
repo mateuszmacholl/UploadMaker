@@ -21,17 +21,5 @@ class UrlPatternValidator : ConstraintValidator<UrlPattern, String> {
         }
         return true
     }
-
-    private fun validUrl(url: String): Boolean {
-        return try {
-            URL(url).toURI()
-            true
-        } catch (exception: URISyntaxException) {
-            false
-        } catch (exception: MalformedURLException) {
-            false
-        }
-
-    }
 }
 
