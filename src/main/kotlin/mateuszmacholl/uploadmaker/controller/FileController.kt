@@ -1,7 +1,7 @@
 package mateuszmacholl.uploadmaker.controller
 
 import mateuszmacholl.uploadmaker.config.exception.file.FileNotFoundException
-import mateuszmacholl.uploadmaker.converter.FileConverter
+import mateuszmacholl.uploadmaker.converter.FileEntityConverter
 import mateuszmacholl.uploadmaker.dto.FileDto
 import mateuszmacholl.uploadmaker.service.file.FileService
 import mateuszmacholl.uploadmaker.specification.FileEntitySpec
@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletRequest
 @Validated
 @RequestMapping(value = ["/files"])
 class FileController(private val fileService: FileService,
-                     private val fileConverter: FileConverter) {
+                     private val fileEntityConverter: FileEntityConverter) {
 
 
     @RequestMapping(value = [""], method = [RequestMethod.GET])
@@ -32,7 +32,7 @@ class FileController(private val fileService: FileService,
 
     @RequestMapping(value = [""], method = [RequestMethod.POST])
     fun add(@RequestBody fileDtos: List<FileDto>): ResponseEntity<*> {
-        val filesEntities = fileConverter.convert(fileDtos)
+        val filesEntities = fileEntityConverter.convert(fileDtos)
         val createdFiles = filesEntities.map { fileService.save(it) }
                 .map {
                     try {
