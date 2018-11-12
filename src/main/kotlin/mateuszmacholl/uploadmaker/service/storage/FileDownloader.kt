@@ -1,6 +1,6 @@
-package mateuszmacholl.uploadmaker.service.file.storage
+package mateuszmacholl.uploadmaker.service.storage
 
-import mateuszmacholl.uploadmaker.config.exception.file.FileNotFoundException
+import mateuszmacholl.uploadmaker.config.exception.file.WrongUrlException
 import org.apache.commons.io.IOUtils
 import org.springframework.stereotype.Component
 import java.io.ByteArrayOutputStream
@@ -11,7 +11,7 @@ import java.net.URL
 @Component
 class FileDownloader {
 
-    fun downloadByUrl(url: String): ByteArray {
+    fun downloadFromUrl(url: String): ByteArray {
         try {
             val conn = URL(url).openConnection()
             conn.connectTimeout = 5000
@@ -23,7 +23,7 @@ class FileDownloader {
 
             return stream.toByteArray()
         } catch (ex: IOException) {
-            throw FileNotFoundException("File not found, wrong url: $url", ex)
+            throw WrongUrlException("File not found, wrong url: $url", ex)
         }
     }
 }

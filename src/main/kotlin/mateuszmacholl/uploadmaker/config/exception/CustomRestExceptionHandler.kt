@@ -2,6 +2,7 @@ package mateuszmacholl.uploadmaker.config.exception
 
 import mateuszmacholl.uploadmaker.config.exception.file.FileNotFoundException
 import mateuszmacholl.uploadmaker.config.exception.file.FileStorageException
+import mateuszmacholl.uploadmaker.config.exception.file.WrongUrlException
 import org.springframework.beans.TypeMismatchException
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
@@ -147,6 +148,13 @@ class CustomRestExceptionHandler : ResponseEntityExceptionHandler() {
     fun handleFileNotFoundException(ex: Exception, request: WebRequest): ResponseEntity<Any>{
         val message = ex.localizedMessage
         val apiError = ApiError(HttpStatus.NOT_FOUND, message, "")
+        return ResponseEntity(apiError, HttpHeaders(), apiError.status)
+    }
+
+    @ExceptionHandler(WrongUrlException::class)
+    fun handleWrongUrlException(ex: Exception, request: WebRequest): ResponseEntity<Any>{
+        val message = ex.localizedMessage
+        val apiError = ApiError(HttpStatus.BAD_REQUEST, message, "")
         return ResponseEntity(apiError, HttpHeaders(), apiError.status)
     }
 
