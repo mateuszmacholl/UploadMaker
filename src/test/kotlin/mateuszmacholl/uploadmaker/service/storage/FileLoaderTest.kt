@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test
 class FileLoaderTest {
     private val fileStorageProperties = FileStorageProperties()
     private lateinit var fileLoader: FileLoader
-    private val fileName = "google.html"
+    private val fileName = "test/google.html"
 
     @BeforeEach
     fun init(){

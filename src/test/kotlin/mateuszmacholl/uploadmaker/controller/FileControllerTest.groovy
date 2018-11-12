@@ -1,7 +1,6 @@
 package mateuszmacholl.uploadmaker.controller
 
 import mateuszmacholl.uploadmaker.dto.ShowFileDto
-import mateuszmacholl.uploadmaker.model.FileEntity
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.jdbc.EmbeddedDatabaseConnection
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
@@ -21,12 +20,9 @@ class FileControllerTest extends Specification {
 
     def "get list of files"() {
         when:
-        def response = restTemplate.getForEntity(path, FileEntity[].class)
+        def response = restTemplate.getForEntity(path, String.class)
         then:
         HttpStatus.OK == response.statusCode
-        response.body.length != 0
-        response.body[0].url != null
-        response.body[0].name != null
     }
 
     def "upload html files"() {
