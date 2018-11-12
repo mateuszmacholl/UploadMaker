@@ -7,6 +7,7 @@ import mateuszmacholl.uploadmaker.service.storage.FileLoader
 import mateuszmacholl.uploadmaker.service.storage.FileSaver
 import mateuszmacholl.uploadmaker.specification.FileEntitySpec
 import org.springframework.core.io.Resource
+import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.scheduling.annotation.Async
 import org.springframework.scheduling.annotation.AsyncResult
@@ -21,7 +22,7 @@ class FileService(private val fileDownloader: FileDownloader,
                   private val fileRepo: FileRepo) {
 
 
-    fun getAll(fileEntitySpec: FileEntitySpec, pageable: Pageable): MutableIterable<FileEntity> {
+    fun getAll(fileEntitySpec: FileEntitySpec, pageable: Pageable): Page<FileEntity> {
         return fileRepo.findAll(fileEntitySpec, pageable)
     }
 
