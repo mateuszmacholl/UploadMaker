@@ -7,13 +7,13 @@ Rest API allowing to store and download any file, regerdlless of the extension. 
 - Extension of a file is provided by user
 - Files are downloaded asynchronously
 
-## Configuration:
+## Configuration
 - Configure database at application.properties
 - Make sure that 9007 port is free to use, if not change it to another 
 
 ## Usage
 
-### Saving a file:
+### Saving a file
 #### Endpoint
 http://localhost:9007/files [POST]
 #### Description
@@ -48,21 +48,21 @@ Url:
   - Filled
   - Url pattern
   
-### Downloading file:
-#### Endpoint:
+### Downloading file
+#### Endpoint
 http://localhost:9007/files/download [GET] parameters: name
 #### Description
 Files are downloaded singly by giving the name with the extension.
-#### Example:
+#### Example
 http://localhost:9007/files/download?name=google.html
-#### Validation:
+#### Validation
 Name:
 - File with this name already exists in database
 
-### Listing saved files and filtering results, paging and sorting:
-#### Endpoint:
+### Listing saved files and filtering results, paging and sorting
+#### Endpoint
 http://localhost:9007/files [GET] parameters: name, url, size, page, sort, ‘value’.dir (eg. name.dir)
-#### Example:
+#### Example
 http://localhost:9007/files?name=html&url=google&size=2&page=0&sort=name&name.dir=desc
 
 
