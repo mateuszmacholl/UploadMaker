@@ -1,9 +1,6 @@
 package mateuszmacholl.uploadmaker.validation.file.urlPattern
 
 import org.apache.commons.validator.routines.UrlValidator
-import java.net.MalformedURLException
-import java.net.URISyntaxException
-import java.net.URL
 import javax.validation.ConstraintValidator
 import javax.validation.ConstraintValidatorContext
 
