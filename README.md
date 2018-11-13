@@ -30,7 +30,7 @@ http://localhost:9007/files [POST]
 		},
 		{
 		"url": "https://facebook.com/",
-		"name": "1.html"	
+		"name": "fb.html"	
 		}
 	]
 }
