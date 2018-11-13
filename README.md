@@ -1,7 +1,7 @@
 # UploadMaker
 
 ## Description
-Rest API allowing to store and download any file, regerdlless of the extension. The files are downloaded from provided URL and stored in “uploads” folder.
+Rest API allowing to store and download any file, regardless of the extension. The files are downloaded from provided URL and stored in “uploads” folder.
 
 ## Adopted assumptions
 - Extension of a file is provided by user
