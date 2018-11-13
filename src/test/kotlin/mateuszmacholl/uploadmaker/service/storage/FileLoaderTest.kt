@@ -1,6 +1,6 @@
 package mateuszmacholl.uploadmaker.service.storage
 
-import mateuszmacholl.uploadmaker.config.exception.file.FileNotFoundException
+import mateuszmacholl.uploadmaker.exception.file.FileNotFoundException
 import mateuszmacholl.uploadmaker.config.properties.FileStorageProperties
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertNotNull

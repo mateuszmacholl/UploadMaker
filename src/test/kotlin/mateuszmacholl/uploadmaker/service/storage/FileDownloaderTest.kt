@@ -1,6 +1,6 @@
 package mateuszmacholl.uploadmaker.service.storage
 
-import mateuszmacholl.uploadmaker.config.exception.file.WrongUrlException
+import mateuszmacholl.uploadmaker.exception.file.WrongUrlException
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test

@@ -1,6 +1,6 @@
 package mateuszmacholl.uploadmaker.service.storage
 
-import mateuszmacholl.uploadmaker.config.exception.file.WrongUrlException
+import mateuszmacholl.uploadmaker.exception.file.WrongUrlException
 import org.apache.commons.io.IOUtils
 import org.springframework.stereotype.Component
 import java.io.ByteArrayOutputStream
