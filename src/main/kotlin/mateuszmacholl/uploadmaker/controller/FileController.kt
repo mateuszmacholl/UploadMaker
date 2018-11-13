@@ -51,7 +51,7 @@ class FileController(private val fileService: FileService,
     @RequestMapping(value = ["/download"], method = [RequestMethod.GET])
     fun download(@RequestParam @FileExistByName name: String, request: HttpServletRequest): ResponseEntity<Resource> {
         val file = this.fileService.findByName(name)
-        val resource = this.fileService.download(file!!)
+        val resource = this.fileService.load(file!!)
         val contentType = getContentType(resource, request)
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(contentType))

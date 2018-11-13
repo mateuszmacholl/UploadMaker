@@ -34,7 +34,7 @@ class FileService(private val fileDownloader: FileDownloader,
         return AsyncResult(savedFile)
     }
 
-    fun download(fileEntity: FileEntity): Resource {
+    fun load(fileEntity: FileEntity): Resource {
         return fileLoader.loadFromDisk(fileEntity.name)
     }
 
