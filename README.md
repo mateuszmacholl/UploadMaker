@@ -1,14 +1,14 @@
 # UploadMaker
 
 ## Description
-Rest API enabling storing and downloading files. It can store files of every extension. The files are downloaded from given URL address and stored in “uploads” folder.
+Rest API allowing to store and download any file, regerdlless of the extension. The files are downloaded from provided URL and stored in “uploads” folder.
 
 ## Adopted assumptions
-- A user gives an extension of a file
+- Extension of a file is provided by user
 - Files are downloaded asynchronously
 
 ## Configuration:
-- In file application.properties set data of created database 
+- Configure database at application.properties
 - Make sure that 9007 port is free to use, if not change it to another 
 
 ## Usage
@@ -17,7 +17,7 @@ Rest API enabling storing and downloading files. It can store files of every ext
 #### Endpoint
 http://localhost:9007/files [POST]
 #### Description
-Saving is possible singly or serially by setting a few files in request body. Each file must have an URL address and a name with extension. Files are downloaded asynchronously. The application gives response after saving all of the elements.
+Saving is possible singly or serially by setting a few files in request body. Each file must have an URL address and a name with extension. Files are downloaded asynchronously. The application gives a response after it has finished the given task.
 #### Example
 http://localhost:9007/files [POST]
 ```
