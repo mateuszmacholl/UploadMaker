@@ -61,8 +61,8 @@ Name:
 
 ### Listing saved files and filtering results, paging and sorting
 #### Endpoint
-http://localhost:9007/files [GET] parameters: name, url, size, page, sort, ‘value’.dir (eg. name.dir)
+http://localhost:9007/files [GET] parameters: name, url, size, page, sort
 #### Example
-http://localhost:9007/files?name=html&url=google&size=2&page=0&sort=name&name.dir=desc
+http://localhost:9007/files?name=html&url=google&size=2&page=0&sort=name,desc
 
 
