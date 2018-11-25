@@ -9,8 +9,4 @@ class FileEntityConverter: Converter<FileDto, FileEntity> {
     override fun convert(from: FileDto): FileEntity {
         return FileEntity(from.name, from.url)
     }
-
-    override fun convert(from: List<FileDto>): List<FileEntity>{
-        return from.map { this.convert(it) }
-    }
 }
